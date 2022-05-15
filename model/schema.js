@@ -7,6 +7,12 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
   },
+  facebookId:{
+    type:String
+  },
+  twitterId:{
+    type:String
+  }
 });
 
 module.exports = mongoose.model("User", UserSchema);

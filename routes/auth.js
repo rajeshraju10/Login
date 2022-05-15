@@ -4,7 +4,7 @@ const app = express.Router();
 const passport = require("passport");
 const { signup, signin } = require("../controller/auth");
 
-const ClIENT_URL = "http://localhost:3001/";
+const ClIENT_URL = "http://localhost:3000/success";
 
 app.get("/login/success", (req, res) => {
   if (req.user) {
@@ -33,15 +33,32 @@ app.get(
   })
 );
 
-app.get("/facebook", passport.authenticate("facebook", { scope: ["profile"] }));
+// Facebook
+app.get("/facebook", passport.authenticate("facebook",{scope:["email"]}));
 
 app.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
     successRedirect: ClIENT_URL,
     failureRedirect: "/login/failed",
+    profileFields: ['id', 'displayName', 'photos', 'email']
+
   })
 );
+
+// Twitter
+app.get("/twitter", passport.authenticate("twitter"));
+
+app.get(
+  "/twitter/callback",
+  passport.authenticate("twitter", {
+    successRedirect: ClIENT_URL,
+    failureRedirect: "/login/failed",
+    profileFields: ['id', 'displayName', 'photos', 'email']
+
+  })
+);
+
 
 app.post("/singup", signup);
 app.post("/signin", signin);
